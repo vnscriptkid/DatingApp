@@ -9,6 +9,9 @@
 # rest client file
 requests.http
 
+# config files
+appsettings.json
+
 ### Angular ###
 ## Angular ##
 # compiled output
