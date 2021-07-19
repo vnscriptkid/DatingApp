@@ -4,6 +4,10 @@
 
 # db files
 *.db
+*.sql
+
+# rest client file
+requests.http
 
 ### Angular ###
 ## Angular ##
