@@ -12,6 +12,9 @@ requests.http
 # config files
 appsettings.json
 
+# ssl
+ssl
+
 ### Angular ###
 ## Angular ##
 # compiled output
