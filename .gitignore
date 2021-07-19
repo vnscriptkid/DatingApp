@@ -2,6 +2,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/aspnetcore,dotnetcore,angular
 # Edit at https://www.toptal.com/developers/gitignore?templates=aspnetcore,dotnetcore,angular
 
+# db files
+*.db
+
 ### Angular ###
 ## Angular ##
 # compiled output
