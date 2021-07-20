@@ -18,8 +18,7 @@ export class AccountService {
   login(model: any) {
     return this.http.post<User>(`${this.baseUrl}/login`, model)
       .pipe(
-        map((response: User) => {
-          const user = response;
+        map((user: User) => {
           if (user) {
             localStorage.setItem('user', JSON.stringify(user));
             this.setCurrentUser(user);
@@ -27,6 +26,19 @@ export class AccountService {
           return user;
         })
       );
+  }
+
+  register(model: any) {
+    return this.http.post<User>(`${this.baseUrl}/register`, model)
+      .pipe(
+        map((user: User) => {
+          if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            this.setCurrentUser(user);
+          }
+          return user;
+        })
+      )
   }
 
   checkUserInLocal() {
