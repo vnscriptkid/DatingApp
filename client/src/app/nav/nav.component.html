@@ -13,11 +13,11 @@
             </li>
         </ul>
 
-        <div class="dropdown" *ngIf="loggedIn">
-            <a class="dropdown-toggle text-light">Welcome user</a>
-            <div class="dropdown-menu">
+        <div class="dropdown" dropdown *ngIf="loggedIn">
+            <a dropdownToggle class="dropdown-toggle text-light">Welcome user</a>
+            <div *dropdownMenu class="dropdown-menu">
                 <a class="dropdown-item">Edit Profile</a>
-                <a (click)="logout" class="dropdown-item">Logout</a>
+                <a (click)="logout()" class="dropdown-item">Logout</a>
             </div>
         </div>
         
