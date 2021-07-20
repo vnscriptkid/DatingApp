@@ -13,8 +13,8 @@
             </li>
         </ul>
 
-        <div class="dropdown" dropdown *ngIf="accountService.currentUser$ | async">
-            <a dropdownToggle class="dropdown-toggle text-light">Welcome user</a>
+        <div class="dropdown" dropdown *ngIf="(accountService.currentUser$ | async) as user">
+            <a dropdownToggle class="dropdown-toggle text-light">Welcome {{ user.username }}</a>
             <div *dropdownMenu class="dropdown-menu">
                 <a class="dropdown-item">Edit Profile</a>
                 <a (click)="logout()" class="dropdown-item">Logout</a>
@@ -24,7 +24,7 @@
         <form *ngIf="(accountService.currentUser$ | async) === null" #loginForm="ngForm" (ngSubmit)="login()" class="form-inline mt-2 mt-md-0">
             <input name="un" [(ngModel)]="model.username" class="form-control mr-sm-2" type="text" placeholder="Username" required>
             <input name="pw" [(ngModel)]="model.password" class="form-control mr-sm-2" type="password" placeholder="Password" required>
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+            <button class="btn btn-success my-2 my-sm-0" type="submit">Login</button>
         </form>
     </div>
     </nav>
