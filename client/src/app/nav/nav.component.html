@@ -13,11 +13,8 @@
             </li>
         </ul>
         <form #loginForm="ngForm" (ngSubmit)="login()" class="form-inline mt-2 mt-md-0">
-            <p class="text-white">
-                {{ creds | json }}
-            </p>
-            <input name="un" [(ngModel)]="creds.username" class="form-control mr-sm-2" type="text" placeholder="Username" required>
-            <input name="pw" [(ngModel)]="creds.password" class="form-control mr-sm-2" type="text" placeholder="Password" required>
+            <input name="un" [(ngModel)]="model.username" class="form-control mr-sm-2" type="text" placeholder="Username" required>
+            <input name="pw" [(ngModel)]="model.password" class="form-control mr-sm-2" type="text" placeholder="Password" required>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
         </form>
     </div>
