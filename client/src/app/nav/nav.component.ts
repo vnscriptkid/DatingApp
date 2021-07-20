@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
 
+  creds: any = {};
+  
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  login() {
+    console.log('login: ', this.creds);
+  }
 }
