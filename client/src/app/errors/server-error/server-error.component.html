@@ -1,0 +1,8 @@
+<div class="text-center">
+    <h2>Internal Server Error</h2>
+    <div *ngIf="error">
+        <p>{{ error?.statusCode }}</p>
+        <p>{{ error?.message }}</p>
+        <code>{{ error?.details }}</code>
+    </div>
+</div>

@@ -6,7 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
 
@@ -40,8 +40,9 @@ export class ErrorInterceptor implements HttpInterceptor {
               case 404:
                 this.router.navigateByUrl("/not-found");
                 break;
-                case 500:
-                this.router.navigateByUrl("/server-error");
+              case 500:
+                const navigationExtras: NavigationExtras = { state: { error: error.error } }
+                this.router.navigateByUrl("/server-error", navigationExtras);
                 break;
               default:
                 console.log('Something unexpected happens');
