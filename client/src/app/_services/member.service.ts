@@ -1,13 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/Member';
-
-const httpOptions = {
-    headers: new HttpHeaders({
-      Authorization: 'Bearer ' + JSON.parse(String(localStorage.getItem('user')))?.token
-    })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +12,10 @@ export class MemberService {
   constructor(private http: HttpClient) { }
 
   getUsers() {
-    return this.http.get<Member[]>(`${this.baseUrl}`, httpOptions);
+    return this.http.get<Member[]>(`${this.baseUrl}`);
   }
 
   getUser(username: string) {
-    return this.http.get<Member>(`${this.baseUrl}/${username}`, httpOptions);
+    return this.http.get<Member>(`${this.baseUrl}/${username}`);
   }
 }
