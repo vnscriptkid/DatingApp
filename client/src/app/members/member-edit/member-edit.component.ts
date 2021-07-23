@@ -24,7 +24,11 @@ export class MemberEditComponent implements OnInit {
   user: User;
   member: Member;
   
-  constructor(private accountService: AccountService, private memberService: MemberService, private toastr: ToastrService) {
+  constructor(
+    private accountService: AccountService, 
+    private memberService: MemberService, 
+    private toastr: ToastrService
+  ) {
     this.accountService.currentUser$.pipe(take(1)).subscribe(user => this.user = user);
   }
 
@@ -38,8 +42,9 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateInfo() {
-    console.log(this.member);
-    this.toastr.success("User info has been updated")
-    this.editForm.reset(this.member);
+    this.memberService.updateUser(this.member).subscribe(() => {
+      this.toastr.success("User info has been updated")
+      this.editForm.reset(this.member);
+    })
   }
 }
