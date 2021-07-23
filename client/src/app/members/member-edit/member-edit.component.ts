@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
@@ -14,6 +14,11 @@ import { MemberService } from 'src/app/_services/member.service';
 })
 export class MemberEditComponent implements OnInit {
 
+  @HostListener('window:beforeunload', ['$event'])
+  notifyUnsavedChangesIfAny($event: any) {
+    if (this.editForm.dirty) $event.returnValue = true;
+  }
+  
   @ViewChild('editForm') editForm: NgForm;
   
   user: User;
