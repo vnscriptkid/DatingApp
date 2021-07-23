@@ -7,7 +7,7 @@
 *.sql
 
 # rest client file
-requests.http
+requests/**/*.http
 
 # config files
 appsettings.json
