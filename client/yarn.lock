@@ -4987,6 +4987,13 @@ ngx-bootstrap@^4.1.1:
   resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-4.3.0.tgz#4c2213c082787701711c991ae728adaed035e637"
   integrity sha512-ZPS6V2yLEeqB/7KIlVohS8qUdtFa1bgUB/sSPWRcXqOWU3EKhORetZoXG6m2F5ILYDe5hwQvBEjdHPlEz2piOg==
 
+ngx-spinner@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-spinner/-/ngx-spinner-12.0.0.tgz#c23d50912bb8f3974534c3a27cb3d359cdb3e707"
+  integrity sha512-0BIaLQDBwNApdSWfKYnYA4hSpfgd2bZ9ptBTB+1tOYJHULg67TRqVYswR6H4tNqmGfA8KNivTYXcY7/6RkyjyA==
+  dependencies:
+    tslib "^2.1.0"
+
 ngx-toastr@^14.0.0:
   version "14.0.0"
   resolved "https://registry.yarnpkg.com/ngx-toastr/-/ngx-toastr-14.0.0.tgz#20e4737ef330b892a453768cd98b980558aeb286"
