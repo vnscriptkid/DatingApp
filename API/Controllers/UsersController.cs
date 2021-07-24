@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -81,6 +82,31 @@ namespace API.Controllers
             }
 
             return BadRequest("There's a problem with uploading photo");
+        }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            var targetPhoto = user.Photos.FirstOrDefault(p => p.Id == photoId);
+
+            if (targetPhoto == null) return NotFound("Photo not found");
+
+            if (targetPhoto.IsMain) return BadRequest("This is already your main photo");
+
+            var currentMain = user.Photos.FirstOrDefault(p => p.IsMain);
+
+            if (currentMain != null) currentMain.IsMain = false;
+
+            targetPhoto.IsMain = true;
+
+            if (await _userRepository.SaveAllAsync())
+            {
+                return NoContent();
+            }
+
+            return BadRequest("Failed to set main photo");
         }
     }
 }
