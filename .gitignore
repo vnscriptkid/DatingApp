@@ -7,13 +7,16 @@
 *.sql
 
 # rest client file
-requests/**/*.http
+requests/**/*.*
 
 # config files
 appsettings.json
 
 # ssl
 ssl
+
+# vscode settings
+.vscode/settings.json
 
 ### Angular ###
 ## Angular ##
