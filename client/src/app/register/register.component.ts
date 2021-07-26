@@ -9,32 +9,18 @@ import { AccountService } from '../_services/account.service';
 })
 export class RegisterComponent implements OnInit {
 
-  @Input() usersFromHome: any;
-
   @Output() cancelled = new EventEmitter();
   
   model: any = {};
   
-  constructor(private accountService: AccountService, private toastr: ToastrService) { }
+  constructor(private accountService: AccountService) { }
 
   ngOnInit(): void {
   }
 
   register() {
     this.accountService.register(this.model)
-      .subscribe(
-        (user) => this.cancelled.emit(), 
-        (error) => {
-          console.error(error);
-          if (typeof error.error === 'string') {
-            this.toastr.error(error.error);
-          } else if (error.error && error.error.errors) {
-            Object.values(error.error.errors).forEach((errors: any) => {
-              errors.forEach((error: any) => this.toastr.error(error))
-            });
-          }
-        }
-      )
+      .subscribe(user => this.cancelled.emit())
   }
 
   cancel() {
