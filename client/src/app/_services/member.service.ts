@@ -53,4 +53,8 @@ export class MemberService {
   setMainPhoto(photo: Photo) {
     return this.http.put(`${this.baseUrl}/set-main-photo/${photo.id}`, {});
   }
+
+  deletePhoto(photo: Photo) {
+    return this.http.delete(`${this.baseUrl}/delete-photo/${photo.id}`);
+  }
 }

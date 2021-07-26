@@ -90,11 +90,19 @@
 <hr>
 
 <div class="row">
-    <div class="col-2" *ngFor="let photo of member.photos">
+    <div class="col-2 mb-2" *ngFor="let photo of member.photos">
         <img src="{{ photo.url }}" alt="{{ photo.url }}" class="img-thumbnail p-1">
         <div class="text-center">
-            <button (click)="setMainPhoto(photo)" [disabled]="photo.isMain" class="btn btn-sm btn-success">Main</button>
-            <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+            <button 
+                (click)="setMainPhoto(photo)" 
+                [disabled]="photo.isMain" 
+                class="btn btn-sm" 
+                [ngClass]="photo.isMain ? 'btn-success' : 'btn-outline-success'">Main</button>
+            <button
+                (click)="deletePhoto(photo)"
+                [disabled]="photo.isMain" 
+                class="btn btn-sm btn-danger"
+            ><i class="fa fa-trash"></i></button>
         </div>
     </div>
 </div>
