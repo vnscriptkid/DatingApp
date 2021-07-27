@@ -3,8 +3,6 @@
 
     <hr>
 
-    {{ registerForm.value | json }}
-
     <div class="form-group d-flex">
         <span class="mr-2">I am a:</span>
         <div class="form-check form-check-inline d-flex">
@@ -27,10 +25,11 @@
         [formControl]="registerForm.controls['username']"
     ></app-text-input>
 
-    <app-text-input
+    <app-date-input
         label="Date Of Birth"
         [formControl]="registerForm.controls['dateOfBirth']"
-    ></app-text-input>
+        [maxDate]="maxDate"
+    ></app-date-input>
 
     <app-text-input
         label="City"

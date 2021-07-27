@@ -12,11 +12,14 @@ export class RegisterComponent implements OnInit {
   @Output() cancelled = new EventEmitter();
   
   registerForm: FormGroup;
+  maxDate: Date;
   
   constructor(private accountService: AccountService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeForm();
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
   }
   initializeForm() {
     this.registerForm = this.formBuilder.group({
