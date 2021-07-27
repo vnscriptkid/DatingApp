@@ -2,10 +2,44 @@
     <h2 class="h2 text-center">Sign Up</h2>
 
     <hr>
-    
+
+    {{ registerForm.value | json }}
+
+    <div class="form-group d-flex">
+        <span class="mr-2">I am a:</span>
+        <div class="form-check form-check-inline d-flex">
+            <input class="form-check-input" type="radio" value="male" formControlName="gender">
+            <label class="form-check-label">Male </label>
+        </div>
+        <div class="form-check form-check-inline d-flex">
+            <input class="form-check-input" type="radio" value="female" formControlName="gender">
+            <label class="form-check-label">Female </label>
+        </div>
+    </div>
+
+    <app-text-input
+        label="Known As"
+        [formControl]="registerForm.controls['knownAs']"
+    ></app-text-input>
+
     <app-text-input
         label="Username"
         [formControl]="registerForm.controls['username']"
+    ></app-text-input>
+
+    <app-text-input
+        label="Date Of Birth"
+        [formControl]="registerForm.controls['dateOfBirth']"
+    ></app-text-input>
+
+    <app-text-input
+        label="City"
+        [formControl]="registerForm.controls['city']"
+    ></app-text-input>
+    
+    <app-text-input
+        label="Country"
+        [formControl]="registerForm.controls['country']"
     ></app-text-input>
 
     <app-text-input
@@ -15,7 +49,7 @@
     ></app-text-input>
 
     <app-text-input
-        label="ConfirmPassword"
+        label="Confirm Password"
         type="password"
         [formControl]="registerForm.controls['confirmPassword']"
     ></app-text-input>
