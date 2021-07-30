@@ -4,8 +4,9 @@ import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/Member';
-import { PaginatedResult, PaginationParams } from '../_models/Pagination';
+import { PaginatedResult } from '../_models/Pagination';
 import { Photo } from '../_models/Photo';
+import { UserParams } from '../_models/UserParams';
 
 @Injectable({
   providedIn: 'root'
@@ -14,25 +15,25 @@ export class MemberService {
   baseUrl = `${environment.apiUrl}/users`;
 
   members: Member[] = [];
-  paginatedMembers: PaginatedResult<Member[]> = new PaginatedResult<Member[]>();
   
   constructor(private http: HttpClient) { }
 
-  getUsers(query: PaginationParams = { itemsPerPage: 5, page: 1 }) {
+  getUsers(params: UserParams) {
+    return this.getPaginatedResult<Member[]>(params);
+  }
 
-    const params = {
-      pageNumber: query.page,
-      pageSize: query.itemsPerPage
-    }
-
-    return this.http.get<Member[]>(`${this.baseUrl}`, { observe: 'response', params }).pipe(
+  private getPaginatedResult<T>(params: any) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+    
+    return this.http.get<T>(`${this.baseUrl}`, { observe: 'response', params }).pipe(
       map(response => {
-        this.paginatedMembers.result = response.body;
+        paginatedResult.result = response.body;
 
         if (response.headers.get('Pagination') !== null) {
-          this.paginatedMembers.pagination = JSON.parse(response.headers.get('Pagination'));
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
         }
-        return this.paginatedMembers;
+
+        return paginatedResult;
       })
     );
   }
