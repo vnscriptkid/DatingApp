@@ -19,4 +19,8 @@ export class UserParams {
         this.pageSize = pageSize;
         this.orderBy = orderBy;
     }
+
+    toString() {
+        return Object.values(this).join('-');
+    }
 }

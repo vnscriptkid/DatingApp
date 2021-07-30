@@ -15,11 +15,20 @@ export class MemberService {
   baseUrl = `${environment.apiUrl}/users`;
 
   members: Member[] = [];
+  memberCache = new Map();
   
   constructor(private http: HttpClient) { }
 
   getUsers(params: UserParams) {
-    return this.getPaginatedResult<Member[]>(params);
+    const key = params.toString();
+    if (this.memberCache.has(key)) return of(this.memberCache.get(key));
+    
+    return this.getPaginatedResult<Member[]>(params)
+      .pipe(map(response => {
+        this.memberCache.set(key, response);
+        
+        return response;
+      }));
   }
 
   private getPaginatedResult<T>(params: any) {
