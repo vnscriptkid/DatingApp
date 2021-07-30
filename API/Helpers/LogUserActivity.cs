@@ -21,9 +21,9 @@ namespace API.Helpers
 
             if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
 
-            var username = resultContext.HttpContext.User.GetUsername();
+            var userId = resultContext.HttpContext.User.GetUserId();
 
-            var user = await _userRepo.GetUserByUsernameAsync(username);
+            var user = await _userRepo.GetUserByIdAsync(userId);
 
             user.LastActive = DateTime.Now;
 
