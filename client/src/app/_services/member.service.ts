@@ -1,12 +1,14 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/Member';
 import { PaginatedResult } from '../_models/Pagination';
 import { Photo } from '../_models/Photo';
+import { User } from '../_models/User';
 import { UserParams } from '../_models/UserParams';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +18,19 @@ export class MemberService {
 
   members: Member[] = [];
   memberCache = new Map();
+  userParams: UserParams;
+  user: User;
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private accountService: AccountService) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
+      this.user = user;
+      this.userParams = new UserParams(this.oppositeGender());
+    })
+  }
 
   getUsers(params: UserParams) {
+    this.userParams = params;
+    
     const key = params.toString();
     if (this.memberCache.has(key)) return of(this.memberCache.get(key));
     
@@ -29,6 +40,23 @@ export class MemberService {
         
         return response;
       }));
+  }
+
+  getUserParams() {
+    return this.userParams;
+  }
+
+  setUserParams(userParams: UserParams) {
+    this.userParams = userParams;
+  }
+
+  resetUserParams(): UserParams {
+    this.userParams = new UserParams(this.oppositeGender());
+    return this.userParams;
+  }
+
+  oppositeGender() {
+    return UserParams.oppositeGender(this.user.gender)
   }
 
   private getPaginatedResult<T>(params: any) {

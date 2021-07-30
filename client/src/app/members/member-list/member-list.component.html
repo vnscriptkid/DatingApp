@@ -15,7 +15,7 @@
             <option *ngFor="let gender of genderList" [value]="gender.value">{{ gender.label }}</option>
         </select>
     </div>
-    <button (click)="applyFilters()" class="btn btn-primary ml-1">Apply Filters</button>
+    <button (click)="loadMembers()" class="btn btn-primary ml-1">Apply Filters</button>
     <button (click)="resetFitlers()" class="btn btn-info ml-1">Reset Filters</button>
 
     <div class="btn-group ml-auto">

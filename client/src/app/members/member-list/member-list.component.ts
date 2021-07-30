@@ -19,18 +19,11 @@ export class MemberListComponent implements OnInit {
   user: User;
   genderList = [{ value: 'male', label: 'Males' }, { value: 'female', label: 'Females' }];
 
-  constructor(private memberService: MemberService, private accountService: AccountService) { }
+  constructor(private memberService: MemberService) { }
 
   ngOnInit(): void {
-    this.loadUserParams();
-  }
-
-  loadUserParams() {
-    this.accountService.currentUser$.pipe(take(1)).subscribe(user => {
-      this.user = user;
-      this.resetFitlers();
-      this.loadMembers();
-    });
+    this.userParams = this.memberService.getUserParams();
+    this.loadMembers();
   }
 
   loadMembers() {
@@ -42,19 +35,16 @@ export class MemberListComponent implements OnInit {
 
   pageChanged(event: any) {
     this.userParams.pageNumber = event.page;
+    this.memberService.setUserParams(this.userParams);
     this.loadMembers();
   }
 
   resetFitlers() {
-    this.userParams = new UserParams(this.oppositeGender());
-  }
-
-  applyFilters() {
+    this.userParams = this.memberService.resetUserParams();
     this.loadMembers();
   }
 
   oppositeGender() {
-    if (!this.user) return null;
-    return this.user.gender === 'male' ? 'female' : 'male';
+    return this.memberService.oppositeGender();
   }
 }

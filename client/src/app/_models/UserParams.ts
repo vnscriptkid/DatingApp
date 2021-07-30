@@ -23,4 +23,8 @@ export class UserParams {
     toString() {
         return Object.values(this).join('-');
     }
+
+    static oppositeGender(gender: string) {
+        return gender === 'male' ? 'female' : 'male';
+    }
 }
