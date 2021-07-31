@@ -17,4 +17,8 @@ export class MessageService {
   getMessages(params: MessagesParams) {
     return getPaginatedResult<Message[]>(this.baseUrl, params, this.http);
   }
+
+  getMessageThread(username: string) {
+    return this.http.get<Message[]>(`${this.baseUrl}/${username}`);
+  }
 }
