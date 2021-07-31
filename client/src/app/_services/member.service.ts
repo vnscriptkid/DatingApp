@@ -1,15 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LikesParams } from '../_models/LikesParams';
 import { Member } from '../_models/Member';
-import { PaginatedResult } from '../_models/Pagination';
 import { Photo } from '../_models/Photo';
 import { User } from '../_models/User';
 import { UserParams } from '../_models/UserParams';
 import { AccountService } from './account.service';
+import { getPaginatedResult } from './paginationHelper';
 
 @Injectable({
   providedIn: 'root'
@@ -57,7 +57,7 @@ export class MemberService {
     const key = params.toString();
     if (this.memberCache.has(key)) return of(this.memberCache.get(key));
     
-    return this.getPaginatedResult<Member[]>(this.usersBaseUrl, params)
+    return getPaginatedResult<Member[]>(this.usersBaseUrl, params, this.http)
       .pipe(map(response => {
         this.memberCache.set(key, response);
         
@@ -106,25 +106,6 @@ export class MemberService {
   }
 
   getLikes(likesParams: LikesParams) {
-    return this.getPaginatedResult<Partial<Member>[]>(this.likesBaseUrl, likesParams);
+    return getPaginatedResult<Partial<Member>[]>(this.likesBaseUrl, likesParams, this.http);
   }
-
-  // common
-
-  private getPaginatedResult<T>(url: string, params: any) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-    
-    return this.http.get<T>(url, { observe: 'response', params }).pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-
-        if (response.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-
-        return paginatedResult;
-      })
-    );
-  }
-
 }
