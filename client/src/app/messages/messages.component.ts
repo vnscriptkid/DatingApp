@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Message } from '../_models/Message';
+import { MessagesParams } from '../_models/MessagesParams';
 import { Pagination } from '../_models/Pagination';
 import { MessageService } from '../_services/message.service';
 
@@ -11,19 +12,25 @@ import { MessageService } from '../_services/message.service';
 export class MessagesComponent implements OnInit {
 
   messages: Message[] = [];
-  container = "Outbox";
   pagination: Pagination;
+  messagesParams: MessagesParams;
   
   constructor(private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.messagesParams = new MessagesParams("Outbox", 1);
     this.loadMessages();
   }
   loadMessages() {
-    this.messageService.getMessages(this.container).subscribe(paginatedResult => {
+    this.messageService.getMessages(this.messagesParams).subscribe(paginatedResult => {
       this.messages = paginatedResult.result;
       this.pagination = paginatedResult.pagination;
     })
+  }
+
+  pageChanged(event: any) {
+    this.messagesParams.pageNumber = event.page;
+    this.loadMessages();
   }
 
 }

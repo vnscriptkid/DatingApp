@@ -14,9 +14,7 @@ export class MessageService {
   
   constructor(private http: HttpClient) { }
 
-  getMessages(container: string) {
-    const params = new MessagesParams(container);
-    
+  getMessages(params: MessagesParams) {
     return getPaginatedResult<Message[]>(this.baseUrl, params, this.http);
   }
 }
