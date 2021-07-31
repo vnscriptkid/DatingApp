@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { LikesParams } from '../_models/LikesParams';
 import { Member } from '../_models/Member';
 import { PaginatedResult } from '../_models/Pagination';
 import { Photo } from '../_models/Photo';
@@ -29,19 +30,7 @@ export class MemberService {
     })
   }
 
-  getUsers(params: UserParams) {
-    this.userParams = params;
-    
-    const key = params.toString();
-    if (this.memberCache.has(key)) return of(this.memberCache.get(key));
-    
-    return this.getPaginatedResult<Member[]>(params)
-      .pipe(map(response => {
-        this.memberCache.set(key, response);
-        
-        return response;
-      }));
-  }
+  // user params
 
   getUserParams() {
     return this.userParams;
@@ -60,20 +49,20 @@ export class MemberService {
     return UserParams.oppositeGender(this.user.gender)
   }
 
-  private getPaginatedResult<T>(params: any) {
-    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+  // users
+
+  getUsers(params: UserParams) {
+    this.userParams = params;
     
-    return this.http.get<T>(`${this.usersBaseUrl}`, { observe: 'response', params }).pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-
-        if (response.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-
-        return paginatedResult;
-      })
-    );
+    const key = params.toString();
+    if (this.memberCache.has(key)) return of(this.memberCache.get(key));
+    
+    return this.getPaginatedResult<Member[]>(this.usersBaseUrl, params)
+      .pipe(map(response => {
+        this.memberCache.set(key, response);
+        
+        return response;
+      }));
   }
 
   getUser(username: string) {
@@ -116,7 +105,26 @@ export class MemberService {
     return this.http.post(`${this.likesBaseUrl}/${username}`, {});
   }
 
-  getLikes(predicate: string) {
-    return this.http.get<Partial<Member>[]>(`${this.likesBaseUrl}?predicate=${predicate}`);
+  getLikes(likesParams: LikesParams) {
+    return this.getPaginatedResult<Partial<Member>[]>(this.likesBaseUrl, likesParams);
   }
+
+  // common
+
+  private getPaginatedResult<T>(url: string, params: any) {
+    const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
+    
+    return this.http.get<T>(url, { observe: 'response', params }).pipe(
+      map(response => {
+        paginatedResult.result = response.body;
+
+        if (response.headers.get('Pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+        }
+
+        return paginatedResult;
+      })
+    );
+  }
+
 }

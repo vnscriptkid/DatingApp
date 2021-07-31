@@ -1,5 +1,5 @@
 <div class="text-center mt-3">
-    <h2>{{ predicate === 'liked' ? 'Members I liked' : 'Members who like me' }}</h2>
+    <h2>{{ likesParams.predicate === 'liked' ? 'Members I liked' : 'Members who like me' }}</h2>
 </div>
 
 <div class="container mt-3">
@@ -7,13 +7,13 @@
         <button 
             class="btn btn-primary" 
             btnRadio="liked" 
-            [(ngModel)]="predicate"
+            [(ngModel)]="likesParams.predicate"
             (click)="loadLikes()"
         >Members I like</button>
         <button 
             class="btn btn-primary" 
             btnRadio="likedBy" 
-            [(ngModel)]="predicate"
+            [(ngModel)]="likesParams.predicate"
             (click)="loadLikes()"
         >Members who like me</button>
     </div>
@@ -22,5 +22,19 @@
         <div class="col-2" *ngFor="let member of members">
             <app-member-card [member]="member"></app-member-card>
         </div>
+    </div>
+
+    <div *ngIf="pagination" class="d-flex justify-content-center">
+        <pagination 
+            [totalItems]="pagination.TotalItems"
+            [itemsPerPage]="pagination.ItemsPerPage"
+            [(ngModel)]="pagination.CurrentPage"
+            [boundaryLinks]="true"
+            (pageChanged)="pageChanged($event)"
+            previousText="&lsaquo;"
+            nextText="&rsaquo;"
+            firstText="&laquo;"
+            lastText="&raquo;"
+        ></pagination>
     </div>
 </div>
