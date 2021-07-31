@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
+import { TabDirective } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/_models/Member';
+import { Message } from 'src/app/_models/Message';
 import { MemberService } from 'src/app/_services/member.service';
+import { MessageService } from 'src/app/_services/message.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -15,8 +18,13 @@ export class MemberDetailComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
   member: Member;
+  messages: Message[] = [];
   
-  constructor(private memberService: MemberService, private route: ActivatedRoute, private toastr: ToastrService) { }
+  constructor(
+    private memberService: MemberService, 
+    private messageService: MessageService,
+    private route: ActivatedRoute, 
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.loadMember();    
@@ -59,9 +67,21 @@ export class MemberDetailComponent implements OnInit {
     );
   }
 
+  loadMessages() {
+    this.messageService.getMessageThread(this.member.username).subscribe(messages => {
+      this.messages = messages;
+    });
+  }
+
   addLike(member: Member) {
     this.memberService.addLike(member.username).subscribe(() => {
       this.toastr.success(`You has liked ${member.knownAs}`);
     });
+  }
+
+  onTabActivated(event: TabDirective) {
+    if (event.heading === 'Messages' && this.messages.length === 0) {
+      this.loadMessages();
+    }
   }
 }
