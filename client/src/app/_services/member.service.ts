@@ -14,7 +14,8 @@ import { AccountService } from './account.service';
   providedIn: 'root'
 })
 export class MemberService {
-  baseUrl = `${environment.apiUrl}/users`;
+  usersBaseUrl = `${environment.apiUrl}/users`;
+  likesBaseUrl = `${environment.apiUrl}/likes`;
 
   members: Member[] = [];
   memberCache = new Map();
@@ -62,7 +63,7 @@ export class MemberService {
   private getPaginatedResult<T>(params: any) {
     const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
     
-    return this.http.get<T>(`${this.baseUrl}`, { observe: 'response', params }).pipe(
+    return this.http.get<T>(`${this.usersBaseUrl}`, { observe: 'response', params }).pipe(
       map(response => {
         paginatedResult.result = response.body;
 
@@ -83,11 +84,11 @@ export class MemberService {
 
     if (member) return of(member);
     
-    return this.http.get<Member>(`${this.baseUrl}/${username}`);
+    return this.http.get<Member>(`${this.usersBaseUrl}/${username}`);
   }
 
   updateUser(member: Member) {
-    return this.http.put(`${this.baseUrl}`, member)
+    return this.http.put(`${this.usersBaseUrl}`, member)
       .pipe(
         map(() => {
           const index = this.members.findIndex(m => m.id === member.id);
@@ -99,11 +100,23 @@ export class MemberService {
       );
   }
 
+  // photos
+
   setMainPhoto(photo: Photo) {
-    return this.http.put(`${this.baseUrl}/set-main-photo/${photo.id}`, {});
+    return this.http.put(`${this.usersBaseUrl}/set-main-photo/${photo.id}`, {});
   }
 
   deletePhoto(photo: Photo) {
-    return this.http.delete(`${this.baseUrl}/delete-photo/${photo.id}`);
+    return this.http.delete(`${this.usersBaseUrl}/delete-photo/${photo.id}`);
+  }
+
+  // likes
+
+  addLike(username: string) {
+    return this.http.post(`${this.likesBaseUrl}/${username}`, {});
+  }
+
+  getLikes(predicate: string) {
+    return this.http.get<Partial<Member>[]>(`${this.likesBaseUrl}?predicate=${predicate}`);
   }
 }
