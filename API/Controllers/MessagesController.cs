@@ -71,5 +71,17 @@ namespace API.Controllers
 
             return pagedMessages;
         }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        {
+            var currentUsername = User.GetUsername();
+
+            var otherUser = await _userRepository.GetUserByUsernameAsync(username);
+
+            if (otherUser == null) return NotFound();
+
+            return Ok(await _messageRepository.GetMessageThread(currentUsername, otherUser.Username));
+        }
     }
 }
