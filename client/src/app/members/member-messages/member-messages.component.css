@@ -1,0 +1,22 @@
+.chat-img {
+  width: 40px;
+  height: 40px;
+}
+
+.msg-line {
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.msg-line__my-msg {
+  background-color: rgb(0, 132, 255);
+  color: white;
+  text-align: right;
+  margin-left: auto;
+}
+
+.msg-line__her-msg {
+  background-color: #e4e6eb;
+  color: black;
+  margin-right: auto;
+}

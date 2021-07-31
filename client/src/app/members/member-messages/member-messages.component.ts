@@ -18,10 +18,14 @@ export class MemberMessagesComponent implements OnInit {
   ngOnInit(): void {
     this.loadMessages();
   }
+
   loadMessages() {
     this.messageService.getMessageThread(this.member.username).subscribe(messages => {
       this.messages = messages;
     });
   }
 
+  myMessage(msg: Message) {
+    return msg.senderId !== this.member.id;
+  }
 }

@@ -1,3 +1,58 @@
-{{ messages | json }}
+<div class="card">
+    <div class="card-body">
+        <div *ngIf="!messages.length">
+            No messages yet ... say hi?
+        </div>
+        <ul *ngIf="messages.length" class="list-group">
+            <li 
+                *ngFor="let msg of messages"
+                class="list-group-item d-flex align-items-center"
+                [ngClass]="{
+                    'flex-row-reverse': myMessage(msg)
+                }"
+            >
+                <!-- user icon -->
+                <img 
+                    class="rounded-circle chat-img mx-3" 
+                    [src]="msg.senderPhotoUrl || '/assets/user.png'" 
+                    [alt]="msg.senderUsername"
+                >
+                <div class="d-flex flex-column">
+                    <!-- chat meta -->
+                    <div [ngClass]="myMessage(msg) ? 'text-right' : 'text-left'">
+                        <small class="text-muted">
+                            <i class="fa fa-clock-o"></i> {{ msg.messageSent | timeago }}
+                        </small>
+                        <span 
+                            class="text-danger" 
+                            *ngIf="!msg.dateRead && myMessage(msg)"
+                        >
+                            (unread)
+                        </span>
+                        <span 
+                            class="text-success" 
+                            *ngIf="msg.dateRead && myMessage(msg)"
+                        >
+                            (read {{ msg.dateRead | timeago }})
+                        </span>
+                    </div>
+                    <!-- chat content -->
+                    <span 
+                        [ngClass]="myMessage(msg) ? 'msg-line__my-msg' : 'msg-line__her-msg'"
+                        class="msg-line">{{ msg.content }}</span>
+                  </div>
+            </li>
+          </ul>
+    </div>
 
-<li *ngFor="let m of messages">{{ m.content }}</li>
+    <div class="card-footer">
+        <form>
+            <div class="input-group">
+                <input type="text" class="form-control input-sm" placeholder="Send a private message">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
