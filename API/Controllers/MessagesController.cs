@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +25,7 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
+        [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMessageDto createMessageDto)
         {
             var senderUsername = User.GetUsername();
@@ -50,6 +53,23 @@ namespace API.Controllers
                 return Ok(_mapper.Map<MessageDto>(message));
 
             return BadRequest("Failed to send message");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessagesForUser([FromQuery] MessagesParams messagesParams)
+        {
+            messagesParams.Username = User.GetUsername();
+
+            var pagedMessages = await _messageRepository.GetMessagesForUser(messagesParams);
+
+            Response.AddPaginationHeader(
+                pagedMessages.CurrentPage,
+                pagedMessages.PageSize,
+                pagedMessages.TotalCount,
+                pagedMessages.TotalPages
+            );
+
+            return pagedMessages;
         }
     }
 }
