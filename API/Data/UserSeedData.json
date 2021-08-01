@@ -1,6 +1,6 @@
 [
     {
-      "Username": "Ashley",
+      "UserName": "Ashley",
       "Gender": "female",
       "DateOfBirth": "1986-08-30",
       "KnownAs": "Ashley",
@@ -19,7 +19,7 @@
       ]
     },
     {
-      "Username": "Billie",
+      "UserName": "Billie",
       "Gender": "female",
       "DateOfBirth": "1956-01-25",
       "KnownAs": "Billie",
@@ -38,7 +38,7 @@
       ]
     },
     {
-      "Username": "Adriana",
+      "UserName": "Adriana",
       "Gender": "female",
       "DateOfBirth": "1973-11-21",
       "KnownAs": "Adriana",
@@ -57,7 +57,7 @@
       ]
     },
     {
-      "Username": "Gay",
+      "UserName": "Gay",
       "Gender": "female",
       "DateOfBirth": "1952-03-04",
       "KnownAs": "Gay",
@@ -76,7 +76,7 @@
       ]
     },
     {
-      "Username": "Imogene",
+      "UserName": "Imogene",
       "Gender": "female",
       "DateOfBirth": "1963-10-21",
       "KnownAs": "Imogene",
@@ -95,7 +95,7 @@
       ]
     },
     {
-        "Username": "Hull",
+        "UserName": "Hull",
         "Gender": "male",
         "DateOfBirth": "1971-09-15",
         "KnownAs": "Hull",
@@ -114,7 +114,7 @@
         ]
     },
     {
-        "Username": "Short",
+        "UserName": "Short",
         "Gender": "male",
         "DateOfBirth": "1994-09-20",
         "KnownAs": "Short",
@@ -133,7 +133,7 @@
         ]
     },
     {
-        "Username": "Case",
+        "UserName": "Case",
         "Gender": "male",
         "DateOfBirth": "1975-01-04",
         "KnownAs": "Case",
@@ -152,7 +152,7 @@
         ]
     },
     {
-        "Username": "Bruce",
+        "UserName": "Bruce",
         "Gender": "male",
         "DateOfBirth": "1979-01-04",
         "KnownAs": "Bruce",
@@ -171,7 +171,7 @@
         ]
     },
     {
-        "Username": "Parks",
+        "UserName": "Parks",
         "Gender": "male",
         "DateOfBirth": "1994-01-20",
         "KnownAs": "Parks",
