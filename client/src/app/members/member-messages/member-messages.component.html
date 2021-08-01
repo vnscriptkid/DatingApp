@@ -46,9 +46,14 @@
     </div>
 
     <div class="card-footer">
-        <form>
+        <form #msgForm="ngForm" (ngSubmit)="sendMessage()">
             <div class="input-group">
-                <input type="text" class="form-control input-sm" placeholder="Send a private message">
+                <input 
+                    name="content"
+                    [(ngModel)]="msgContent"
+                    type="text"
+                    class="form-control input-sm" 
+                    placeholder="Send a private message">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="submit">Send</button>
                 </div>
