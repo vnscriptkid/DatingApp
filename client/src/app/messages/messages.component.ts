@@ -36,5 +36,16 @@ export class MessagesComponent implements OnInit {
     this.messagesParams.pageNumber = event.page;
     this.loadMessages();
   }
+  
+  getUsername(message: Message) {
+    return  this.messagesParams.container === 'Outbox' ? message.recipientUsername : message.senderUsername;
+  }
+
+  deleteMessage(message: Message) {
+    this.messageService.deleteMessage(message.id).subscribe(() => {
+      const index = this.messages.findIndex(m => m.id === message.id);
+      this.messages.splice(index, 1);
+    });
+  }
 
 }
