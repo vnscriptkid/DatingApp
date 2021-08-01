@@ -43,8 +43,8 @@ namespace API.Controllers
                 Sender = sender,
                 Recipient = recipient,
                 Content = createMessageDto.Content,
-                SenderUsername = sender.Username,
-                RecipientUsername = recipient.Username
+                SenderUsername = sender.UserName,
+                RecipientUsername = recipient.UserName
             };
 
             _messageRepository.AddMessage(message);
@@ -81,7 +81,7 @@ namespace API.Controllers
 
             if (otherUser == null) return NotFound();
 
-            return Ok(await _messageRepository.GetMessageThread(currentUsername, otherUser.Username));
+            return Ok(await _messageRepository.GetMessageThread(currentUsername, otherUser.UserName));
         }
 
         [HttpDelete("{id}")]
