@@ -23,27 +23,27 @@
             <div class="card-footer">
                 <div class="btn-group d-flex">
                     <div (click)="addLike(member)" class="btn btn-primary">Like</div>
-                    <div class="btn btn-success">Message</div>
+                    <div (click)="selectTab(3)" class="btn btn-success">Message</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="col-8">
-        <tabset class="member-tabset">
-            <tab heading="About {{ member.knownAs }}" (selectTab)="onTabActivated($event)">
+        <tabset class="member-tabset" #memberTabs>
+            <tab heading="About {{ member.knownAs }}" (selectTab)="onTabActivated($event)" [active]="activeTab === 0">
                 <h4>Description</h4>
                 <p>{{ member.introduction }}</p>
                 <h4>Looking For</h4>
                 <p>{{ member.lookingFor }}</p>
             </tab>
-            <tab heading="Interests" (selectTab)="onTabActivated($event)">
+            <tab heading="Interests" (selectTab)="onTabActivated($event)" [active]="activeTab === 1">
                 <p>{{ member.interests }}</p>
             </tab>
-            <tab heading="Photos" (selectTab)="onTabActivated($event)">
+            <tab heading="Photos" (selectTab)="onTabActivated($event)" [active]="activeTab === 2">
                 <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
             </tab>
-            <tab heading="Messages" (selectTab)="onTabActivated($event)">
+            <tab heading="Messages" (selectTab)="onTabActivated($event)" [active]="activeTab === 3">
                 <app-member-messages [member]="member" [messages]="messages"></app-member-messages>
             </tab>
         </tabset>
