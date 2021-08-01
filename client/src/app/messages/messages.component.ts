@@ -14,6 +14,7 @@ export class MessagesComponent implements OnInit {
   messages: Message[] = [];
   pagination: Pagination;
   messagesParams: MessagesParams;
+  loading = false;
   
   constructor(private messageService: MessageService) { }
 
@@ -21,8 +22,11 @@ export class MessagesComponent implements OnInit {
     this.messagesParams = new MessagesParams("Outbox", 1);
     this.loadMessages();
   }
+
   loadMessages() {
+    this.loading = true;
     this.messageService.getMessages(this.messagesParams).subscribe(paginatedResult => {
+      this.loading = false;
       this.messages = paginatedResult.result;
       this.pagination = paginatedResult.pagination;
     })

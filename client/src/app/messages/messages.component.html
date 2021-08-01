@@ -41,7 +41,7 @@
                 <th style="width: 20%;">Actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody [hidden]="loading">
             <tr *ngFor="let message of messages"
                 [routerLink]="'/members/' + messagesParams.container === 'Outbox' ? message.recipientUsername : message.senderUsername"
             >
@@ -74,7 +74,7 @@
         </tbody>
     </table>
 
-    <div *ngIf="pagination" class="d-flex justify-content-center">
+    <div *ngIf="pagination && !loading" class="d-flex justify-content-center">
         <pagination 
             [totalItems]="pagination.TotalItems"
             [itemsPerPage]="pagination.ItemsPerPage"
