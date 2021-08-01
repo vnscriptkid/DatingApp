@@ -42,5 +42,28 @@ namespace API.Controllers
         {
             return Ok("Admins or moderators can see this");
         }
+
+        [Authorize(Policy = "RequireAdminRole")]
+        [HttpPut("edit-roles/{username}")]
+        public async Task<ActionResult> EditRoles(string username, [FromQuery] string roles)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+
+            if (user == null) return NotFound();
+
+            var newRoles = roles.Split(',').ToArray();
+
+            var currentRoles = await _userManager.GetRolesAsync(user);
+
+            var result = await _userManager.AddToRolesAsync(user, newRoles.Except(currentRoles));
+
+            if (!result.Succeeded) return BadRequest("Failed to add to roles");
+
+            result = await _userManager.RemoveFromRolesAsync(user, currentRoles.Except(newRoles));
+
+            if (!result.Succeeded) return BadRequest("Failed to remove from roles");
+
+            return Ok(await _userManager.GetRolesAsync(user));
+        }
     }
 }
