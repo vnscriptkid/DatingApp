@@ -7,6 +7,7 @@ import { Member } from 'src/app/_models/Member';
 import { Message } from 'src/app/_models/Message';
 import { MemberService } from 'src/app/_services/member.service';
 import { MessageService } from 'src/app/_services/message.service';
+import { PresenceService } from 'src/app/_services/presence.service';
 
 @Component({
   selector: 'app-member-detail',
@@ -25,6 +26,7 @@ export class MemberDetailComponent implements OnInit, AfterViewInit {
   constructor(
     private memberService: MemberService, 
     private messageService: MessageService,
+    public presence: PresenceService,
     private route: ActivatedRoute, 
     private toastr: ToastrService) { }
 
@@ -98,7 +100,6 @@ export class MemberDetailComponent implements OnInit, AfterViewInit {
   }
 
   selectTab(tabId: number) {
-    // this.memberTabs.tabs[tabId].active = true;
     this.activeTab = tabId;
   }
 }
