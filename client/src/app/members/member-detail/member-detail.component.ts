@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxGalleryAnimation, NgxGalleryImage, NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -28,8 +28,11 @@ export class MemberDetailComponent implements OnInit, AfterViewInit, OnDestroy {
     private accountService: AccountService,
     public messageService: MessageService,
     public presence: PresenceService,
-    private route: ActivatedRoute, 
-    private toastr: ToastrService) { }
+    private activatedRoute: ActivatedRoute, 
+    private router: Router, 
+    private toastr: ToastrService) {
+      this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
 
   ngOnInit(): void {
     this.loadMember();    
@@ -48,7 +51,7 @@ export class MemberDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.route.queryParamMap.subscribe(params => {
+      this.activatedRoute.queryParamMap.subscribe(params => {
         const tabId = parseInt(params.get('tab'));
         if (isNaN(tabId)) return;
         this.activeTab = tabId;
@@ -72,7 +75,7 @@ export class MemberDetailComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadMember() {
-    const username = this.route.snapshot.paramMap.get('username');
+    const username = this.activatedRoute.snapshot.paramMap.get('username');
     
     this.memberService.getUser(username).subscribe(
       member => {
