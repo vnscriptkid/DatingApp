@@ -1,11 +1,11 @@
 <div class="card">
     <div class="card-body">
-        <div *ngIf="!messages.length">
+        <div *ngIf="(messageService.messageThread$ | async).length === 0">
             No messages yet ... say hi?
         </div>
-        <ul *ngIf="messages.length" class="list-group">
+        <ul *ngIf="(messageService.messageThread$ | async).length > 0" class="list-group">
             <li 
-                *ngFor="let msg of messages"
+                *ngFor="let msg of messageService.messageThread$ | async"
                 class="list-group-item d-flex align-items-center"
                 [ngClass]="{
                     'flex-row-reverse': myMessage(msg)

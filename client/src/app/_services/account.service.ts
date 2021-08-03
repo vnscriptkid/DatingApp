@@ -12,7 +12,7 @@ import { PresenceService } from './presence.service';
 export class AccountService {
 
   baseUrl = `${environment.apiUrl}/account`;
-  currentUserSource = new ReplaySubject<User | null>(1);
+  private currentUserSource = new ReplaySubject<User | null>(1);
   currentUser$ = this.currentUserSource.asObservable();
   
   constructor(private http: HttpClient, private presenceService: PresenceService) { }
