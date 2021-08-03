@@ -17,11 +17,21 @@ namespace API.SignalR
         private readonly IMessageRepository _messageRepository;
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IHubContext<PresenceHub> _presenceHub;
+        private readonly PresenceTracker _presenceTracker;
 
-        public MessageHub(IMessageRepository messageRepository, IMapper mapper, IUserRepository userRepository)
+        public MessageHub(
+            IMessageRepository messageRepository,
+            IMapper mapper,
+            IUserRepository userRepository,
+            IHubContext<PresenceHub> presenceHub,
+            PresenceTracker presenceTracker
+            )
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _presenceHub = presenceHub;
+            _presenceTracker = presenceTracker;
             _messageRepository = messageRepository;
         }
 
@@ -39,7 +49,8 @@ namespace API.SignalR
 
             await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-            await AddToGroup(groupName);
+            if (!await AddToGroup(groupName))
+                throw new HubException("Failed to add connection to group");
 
             var messages = await _messageRepository.GetMessageThread(Context.User.GetUsername(), otherUsername);
 
@@ -55,7 +66,8 @@ namespace API.SignalR
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await RemoveFromGroup();
+            if (!await RemoveFromGroup())
+                throw new HubException("Failed to remove connection from group");
 
             await base.OnDisconnectedAsync(exception);
         }
@@ -88,6 +100,16 @@ namespace API.SignalR
             if (group.Connections.Any(c => c.Username == recipient.UserName))
             {
                 message.DateRead = DateTime.UtcNow;
+            }
+            else
+            {
+                var connections = await _presenceTracker.GetConnectionsForUser(recipient.UserName);
+
+                if (connections != null)
+                {
+                    await _presenceHub.Clients.Clients(connections).SendAsync("NewMessageReceived",
+                        new { username = sender.UserName, knownAs = sender.KnownAs });
+                }
             }
 
             _messageRepository.AddMessage(message);
