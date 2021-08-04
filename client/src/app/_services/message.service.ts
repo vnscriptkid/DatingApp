@@ -4,6 +4,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Group } from '../_models/Group';
 import { Message } from '../_models/Message';
 import { MessagesParams } from '../_models/MessagesParams';
 import { User } from '../_models/User';
@@ -59,6 +60,19 @@ export class MessageService {
         this.messageThreadSource.next([ ...messages, message ]);
       })
     });
+
+    this.hubConnection.on('GroupUpdated', (group: Group) => {
+      if (group.connections.some(c => c.username === otherUsername)) {
+        // otherUser have just joined the group, he'd see unseen msg if there's any!
+        this.messageThread$.pipe(take(1)).subscribe(messages => {
+          messages.forEach(m => {
+            if (!m.dateRead) m.dateRead = new Date();
+          })
+
+          this.messageThreadSource.next(messages);
+        });
+      }
+    }); 
   }
 
   stopHubConnection() {
