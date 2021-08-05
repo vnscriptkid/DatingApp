@@ -18,9 +18,6 @@ ssl
 # vscode settings
 .vscode/settings.json
 
-# compiled files
-wwwroot
-
 ### Angular ###
 ## Angular ##
 # compiled output
