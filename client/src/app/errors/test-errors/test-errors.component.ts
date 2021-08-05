@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-test-errors',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestErrorsComponent implements OnInit {
 
-  baseUrl = 'https://localhost:5001/api/buggy'
+  baseUrl = environment.apiUrl;
 
   validationErrors: string[] = [];
   
@@ -38,7 +39,7 @@ export class TestErrorsComponent implements OnInit {
   }
 
   getValidationError() {
-    this.http.post('https://localhost:5001/api/account/register', {})
+    this.http.post(`${this.baseUrl}/account/register`, {})
       .subscribe(() => {}, (e) => this.validationErrors = e);
   }  
 }
