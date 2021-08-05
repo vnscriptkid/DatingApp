@@ -102,10 +102,10 @@ namespace API.Data
                             && m.RecipientDeleted == false
                         )
                 .OrderBy(m => m.MessageSent)
-                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
 
-            var unreadMessages = messages.Where(m => m.DateRead == null && m.RecipientUsername == currentUsername).ToList();
+            var unreadMessages = messages.Where(
+                m => m.DateRead == null && m.RecipientUsername == currentUsername);
 
             if (unreadMessages.Any())
             {
@@ -115,7 +115,7 @@ namespace API.Data
                 }
             }
 
-            return messages;
+            return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
         public void RemoveConnection(Connection connection)
