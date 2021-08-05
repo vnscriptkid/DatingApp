@@ -38,7 +38,7 @@ export class MemberEditComponent implements OnInit {
 
 
   private loadMember() {
-    this.memberService.getUser(this.user.username).subscribe(member => this.member = member);
+    this.memberService.getUser(this.user.userName).subscribe(member => this.member = member);
   }
 
   updateInfo() {
