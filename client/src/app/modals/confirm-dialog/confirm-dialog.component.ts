@@ -20,13 +20,11 @@ export class ConfirmDialogComponent implements OnInit {
   }
 
   ok() {
-    console.log('ok');
     this.result = true;
     this.modalRef.hide();
   }
   
   cancel() {
-    console.log('cancel');
     this.result = false;
     this.modalRef.hide();
   }
