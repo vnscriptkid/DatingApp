@@ -75,6 +75,14 @@ namespace API.Data
                 .SingleOrDefaultAsync(u => u.UserName == username);
         }
 
+        public async Task<string> GetUserGender(string username)
+        {
+            return await _context.Users
+                .Where(u => u.UserName == username)
+                .Select(u => u.UserName)
+                .FirstOrDefaultAsync();
+        }
+
         public void Update(AppUser user)
         {
             _context.Entry(user).State = EntityState.Modified;

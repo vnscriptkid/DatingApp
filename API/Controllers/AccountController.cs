@@ -24,7 +24,6 @@ namespace API.Controllers
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ITokenService tokenService,
-            IUserRepository userRepository,
             IMapper mapper)
         {
             _userManager = userManager;
